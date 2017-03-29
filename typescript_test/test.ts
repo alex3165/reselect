@@ -32,6 +32,20 @@ function testSelector() {
     (state: {bar: number}) => state.bar,
     (foo, bar) => 1
   );
+
+  interface ProductState {
+    productStore: {
+      entity: {
+        title: string;
+      }
+    }
+  }
+
+  const selectProductStore = (state: ProductState) => state.productStore;
+  const getEntity = createSelector(selectProductStore, store => store.entity);
+  const getTitle = createSelector(getEntity, entity => entity.title);
+
+  const title = getTitle({ productStore: { entity: { title: 'test'} } });
 }
 
 type Component<P> = (props: P) => any;
